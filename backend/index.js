@@ -11,7 +11,7 @@ app.use(cors());
 mongoose.connect('mongodb+srv://saisudheera9803:Sai2344557@cluster0.gsisntp.mongodb.net/');
 
 app.post('/register', (req, res)=>{
-    // To post / insert data into database.
+    // To post / insert data into database..
 
     const {email, password} = req.body;
     FormDataModel.findOne({email: email})
