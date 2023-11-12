@@ -50,10 +50,10 @@ app.post('/login-doctor', (req, res) => {
 })
 
 // User Signup
-app.post('/signup-usser', (req, res) => {
+app.post('/signup-user', (req, res) => {
   const { email, password } = req.body;
 
-  UserrModel.findOne({ email }).then((user) => {
+  UserModel.findOne({ email }).then((user) => {
     if (user) {
       res.json('User already registered');
       return;
@@ -71,7 +71,7 @@ app.post('/signup-usser', (req, res) => {
 app.post('/login-user', (req, res) => {
   const { email, password } = req.body;
 
-  UserrModel.findOne({ email }).then(user => {
+  UserModel.findOne({ email }).then(user => {
         if(user){
             // If user found then these 2 cases
             if(user.password === password) {
