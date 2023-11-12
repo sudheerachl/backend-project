@@ -40,11 +40,11 @@ app.post('/login-doctor', (req, res) => {
 
     if (doctor.password === password) {
       res.json('Login successful');
-    } else {
-      // Corrected error: Check if user exists before printing error message
-      if (doctor) {
-        res.json('Incorrect password');
-      } else {
+    } 
+    else if(doctor.password != password && doctor){
+      res.json('Incorrect password');}
+      // Corrected error: Check if user e]xists before printing error message
+      else {
         console.error('User does not exist');
       }
     }
