@@ -47,7 +47,7 @@ app.post('/login-doctor', (req, res) => {
       } else {
         res.json('User does not exist');
       }
-    }
+    });
   });
 });
 
