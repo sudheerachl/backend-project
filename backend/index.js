@@ -16,8 +16,8 @@ app.post('/signup-doctor', (req, res)=>{
 
     const {email, password} = req.body;
     DoctorModel.findOne({email: email})
-    .then(user => {
-        if(user){
+    .then(doctor => {
+        if(doctor){
             res.json("Already registered")
         }
         else{
@@ -33,10 +33,10 @@ app.post('/login-doctor', (req, res)=>{
     // To find record from the database
     const {email, password} = req.body;
     DoctorModel.findOne({email: email})
-    .then(user => {
-        if(user){
+    .then(doctor => {
+        if(doctor){
             // If user found then these 2 cases
-            if(user.password === password) {
+            if(doctor.password === password) {
                 res.json("Success");
             }
             else{
