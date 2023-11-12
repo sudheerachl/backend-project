@@ -32,21 +32,21 @@ app.post('/signup-doctor', (req, res) => {
 app.post('/login-doctor', (req, res) => {
   const { email, password } = req.body;
 
-  DoctorModel.findOne({ email }).then(doctor => {
-        if(doctor){
-            // If user found then these 2 cases
-            if(doctor.password === password) {
-                res.json("Success");
-            }
-            else{
-                res.json("Wrong password");
-            }
-        }
-        // If user not found then 
-        else{
-            res.json("No records found! ");
-        }
-    })
+  DoctorModel.findOne({ email }).then((doctor) => {
+    if (!doctor) {
+      // User not found
+      res.json('User not found');
+      return;
+    }
+
+    if (doctor.password === password) {
+      // Login successful
+      res.json('Success');
+    } else {
+      // Incorrect password
+      res.json('Wrong password');
+    }
+  })
 })
 
 // User Signup
