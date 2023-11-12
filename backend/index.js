@@ -41,7 +41,11 @@ app.post('/login-doctor', (req, res) => {
     if (doctor.password === password) {
       res.json('Login successful');
     } else {
-      res.json('Incorrect password');
+      if (doctor) {
+    console.error('Incorrect password');
+  } else {
+    console.error('User does not exist');
+  }
     }
   });
 });
@@ -77,7 +81,11 @@ app.post('/login-user', (req, res) => {
     if (user.password === password) {
       res.json('Login successful');
     } else {
-      res.json('Incorrect password');
+      if (user) {
+    console.error('Incorrect password');
+  } else {
+    console.error('User does not exist');
+  }
     }
   });
 });
