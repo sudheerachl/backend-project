@@ -41,11 +41,12 @@ app.post('/login-doctor', (req, res) => {
     if (doctor.password === password) {
       res.json('Login successful');
     } else {
+      // Corrected error: Check if user exists before printing error message
       if (doctor) {
-    console.error('Incorrect password');
-  } else {
-    console.error('User does not exist');
-  }
+        res.json('Incorrect password');
+      } else {
+        console.error('User does not exist');
+      }
     }
   });
 });
@@ -81,11 +82,12 @@ app.post('/login-user', (req, res) => {
     if (user.password === password) {
       res.json('Login successful');
     } else {
+      // Corrected error: Check if user exists before printing error message
       if (user) {
-    console.error('Incorrect password');
-  } else {
-    console.error('User does not exist');
-  }
+        res.json('Incorrect password');
+      } else {
+        console.error('User does not exist');
+      }
     }
   });
 });
