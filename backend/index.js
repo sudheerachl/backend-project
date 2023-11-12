@@ -19,68 +19,74 @@ app.post('/signup-doctor', (req, res) => {
       res.json('Doctor already registered');
       return;
     }
-
-    DoctorModel.create(req.body).then((newDoctor) => {
-      res.json(newDoctor);
-    }).catch((err) => {
-      res.json(err);
-    });
-  });
-});
+    else{
+    DoctorModel.create(req.body).then((Doctor) => {
+      res.json(Doctor);
+    })
+.catch(err => res.json(err))
+  }
+})
+})
 
 // Doctor Login
 app.post('/login-doctor', (req, res) => {
   const { email, password } = req.body;
 
-  DoctorModel.findOne({ email }).then((doctor) => {
-    if (!doctor) {
-      res.json('Doctor not found');
-      return;
-    }
-
-    if (doctor.password === password) {
-      res.json('Login successful');
-    } else {
-      res.json('Incorrect password');
-    }
-  });
-});
+  DoctorModel.findOne({ email }).then(doctor => {
+        if(doctor){
+            // If user found then these 2 cases
+            if(doctor.password === password) {
+                res.json("Success");
+            }
+            else{
+                res.json("Wrong password");
+            }
+        }
+        // If user not found then 
+        else{
+            res.json("No records found! ");
+        }
+    })
+})
 
 // User Signup
-app.post('/signup-user', (req, res) => {
+app.post('/signup-usser', (req, res) => {
   const { email, password } = req.body;
 
-  UserModel.findOne({ email }).then((user) => {
+  UserrModel.findOne({ email }).then((user) => {
     if (user) {
       res.json('User already registered');
       return;
     }
-
-    UserModel.create(req.body).then((newUser) => {
-      res.json(newUser);
-    }).catch((err) => {
-      res.json(err);
-    });
-  });
-});
+    else{
+    UserModel.create(req.body).then((user) => {
+      res.json(user);
+    })
+.catch(err => res.json(err))
+  }
+})
+})
 
 // User Login
 app.post('/login-user', (req, res) => {
   const { email, password } = req.body;
 
-  UserModel.findOne({ email }).then((user) => {
-    if (!user) {
-      res.json('User not found');
-      return;
-    }
-
-    if (user.password === password) {
-      res.json('Login successful');
-    } else {
-      res.json('Incorrect password');
-    }
-  });
-});
+  UserrModel.findOne({ email }).then(user => {
+        if(user){
+            // If user found then these 2 cases
+            if(user.password === password) {
+                res.json("Success");
+            }
+            else{
+                res.json("Wrong password");
+            }
+        }
+        // If user not found then 
+        else{
+            res.json("No records found! ");
+        }
+    })
+})
 
 app.listen(3001, () => {
   console.log('Server listening on http://localhost:3001');
