@@ -82,7 +82,7 @@ app.delete('/delete-doctor', (req, res) => {
   });
 });
 //doctor-update
-app.post('/login-doctor', (req, res) => {
+app.post('/update-doctor', (req, res) => {
   const { username, password,phoneNumber,gender,email,name  } = req.body;
 
   DoctorModel.findOne({ username }).then((doctor) => {
