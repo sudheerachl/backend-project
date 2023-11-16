@@ -14,22 +14,22 @@ mongoose.connect('mongodb+srv://saisudheera9803:Sai2344557@cluster0.gsisntp.mong
 app.post('/signup-doctor', (req, res) => {
   const { username, password } = req.body;
 
-  DoctorModel.findOne({ username }).then((doctor) => {
-    if (doctor) {
+  DoctorModel.findOne({ username }).then((doctorByEmail) => {
+    if (doctorByEmail) {
       res.json('Username already registered');
       return;
-    } else {
-      UserModel.findOne({ email: req.body.email }).then((doctor) => { // Use req.body.email to access the email property
-        if (doctor) {
-          res.json('Email already registered');
-          return;
-        } else {
-          UserModel.create(req.body).then((doctor) => {
-            res.json(doctor);
-          }).catch(err => res.json(err));
-        }
-      });
     }
+
+    DoctorModel.findOne({ email: req.body.email }).then((doctorByEmail) => {
+      if (doctorByEmail) {
+        res.json('Email already registered');
+        return;
+      }
+
+      DoctorModel.create(req.body).then((doctor) => {
+        res.json(doctor);
+      }).catch(err => res.json(err));
+    });
   });
 });
 
