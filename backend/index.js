@@ -127,6 +127,7 @@ app.post('/login-user', (req, res) => {
     }
   });
 });
+//User Delete.
 app.delete('/delete-user', (req, res) => {
   const { username, password } = req.body;
 
@@ -150,6 +151,8 @@ app.delete('/delete-user', (req, res) => {
     }
   });
 });
+
+
 app.listen(3001, () => {
   console.log('Server listening on http://localhost:3001');
 });
