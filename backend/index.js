@@ -127,7 +127,29 @@ app.post('/login-user', (req, res) => {
     }
   });
 });
+app.delete('/delete-user', (req, res) => {
+  const { username, password } = req.body;
 
+  UserModel.findOne({ username }).then((user) => {
+    if (!user) {
+      // User not found
+      res.json('User not found');
+      return;
+    }
+
+    if (user.password === password) {
+      // Delete the doctor
+      UserModel.deleteOne({ _id: user._id }).then(() => {
+        res.json('Deleted successfully');
+      }).catch((err) => {
+        res.json('Error deleting doctor');
+      });
+    } else {
+      // Incorrect password
+      res.json('Wrong password');
+    }
+  });
+});
 app.listen(3001, () => {
   console.log('Server listening on http://localhost:3001');
 });
