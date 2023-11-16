@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
 const DoctorSchema = new mongoose.Schema({
-    name : String,
-    email: String,
-    password: String
-})
+  name: String,
+  username: String,
+  phoneNumber: String,
+  gender: String,
+  email: String,
+  password: String
+});
 
 const DoctorModel = mongoose.model('Doctor',DoctorSchema);
 
