@@ -66,14 +66,19 @@ app.delete('/delete-doctor', (req, res) => {
     }
 
     if (doctor.password === password) {
-      // delete successful
-      res.json('Deleted successfully');
+      // Delete the doctor
+      DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
+        res.json('Deleted successfully');
+      }).catch((err) => {
+        res.json('Error deleting doctor');
+      });
     } else {
       // Incorrect password
       res.json('Wrong password');
     }
   });
 });
+
 
 
 // User Signup
