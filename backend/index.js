@@ -54,6 +54,32 @@ app.post('/login-doctor', (req, res) => {
     }
   });
 });
+// doctor delete
+app.delete('/delete-doctor', async (req, res) => {
+  const { password } = req.body;
+  const username = req.params.username;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    if (user.password !== password) {
+      res.status(400).json({ message: 'Incorrect password' });
+      return;
+    }
+
+    await User.deleteOne({ username });
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 // User Signup
 app.post('/signup-user', (req, res) => {
