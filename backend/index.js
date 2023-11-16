@@ -59,24 +59,25 @@ app.post('/login-doctor', (req, res) => {
 app.post('/signup-user', (req, res) => {
   const { username, password } = req.body;
 
-  UserModel.findOne({ username }).then((user) => {
-    if (user) {
+  UserModel.findOne({ username }).then((userByEmail) => {
+    if (userByEmail) {
       res.json('Username already registered');
       return;
-    } else {
-      UserModel.findOne({ email: req.body.email }).then((user) => { // Use req.body.email to access the email property
-        if (user) {
-          res.json('Email already registered');
-          return;
-        } else {
-          UserModel.create(req.body).then((user) => {
-            res.json(user);
-          }).catch(err => res.json(err));
-        }
-      });
     }
+
+    UserModel.findOne({ email: req.body.email }).then((userByEmail) => {
+      if (userByEmail) {
+        res.json('Email already registered');
+        return;
+      }
+
+      UserModel.create(req.body).then((user) => {
+        res.json(user);
+      }).catch(err => res.json(err));
+    });
   });
 });
+
 
 // User Login
 app.post('/login-user', (req, res) => {
