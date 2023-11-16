@@ -27,7 +27,7 @@ app.post('/signup-doctor', (req, res) => {
       }
 
       DoctorModel.create(req.body).then((doctor) => {
-        res.json(user);
+        res.json(doctor);
       }).catch(err => res.json(err));
     });
   });
