@@ -81,36 +81,33 @@ app.delete('/delete-doctor', (req, res) => {
 });
 //doctor-update
 app.post('/update-doctor', (req, res) => {
-  const { username, password,phoneNumber,gender,email,name  } = req.body;
+  const { username, password, phoneNumber, gender, email, name } = req.body;
 
   DoctorModel.findOne({ username }).then((doctor) => {
     if (!doctor) {
-      // User not found
-      res.json('User not found');
+      // Doctor not found
+      res.status(404).json({ message: 'Doctor not found' });
       return;
     }
 
     if (doctor.password === password) {
-       UserModel.findOneAndUpdate({ username }, { phoneNumber, gender, email, name }, { new: true }).then((updatedDoctor) => {
-          if (!updatedDoctor) {
-            res.status(404).json({ message: 'Doctor not found' });
-            return;
-          }
+      DoctorModel.findOneAndUpdate({ username }, { phoneNumber, gender, email, name }, { new: true }).then((updatedDoctor) => {
+        if (!updatedDoctor) {
+          res.status(404).json({ message: 'Doctor not found' });
+          return;
+        }
 
-          res.status(200).json({ message: 'Doctor information updated successfully' });
-        }).catch((err) => {
-          console.error('Error updating user information:', err);
-          res.status(500).json({ message: 'Internal server error' });
-        });
-      }
-      res.json('Success');
+        res.status(200).json({ message: 'Doctor information updated successfully' });
+      }).catch((err) => {
+        console.error('Error updating doctor information:', err);
+        res.status(500).json({ message: 'Internal server error' });
+      });
     } else {
       // Incorrect password
-      res.json('Wrong password');
+      res.status(400).json({ message: 'Incorrect password' });
     }
   });
 });
-
 
 // User Signup
 app.post('/signup-user', (req, res) => {
