@@ -12,27 +12,25 @@ mongoose.connect('mongodb+srv://saisudheera9803:Sai2344557@cluster0.gsisntp.mong
 
 // Doctor Signup
 app.post('/signup-doctor', (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  DoctorModel.findOne({ email }).then((doctor) => {
+  DoctorModel.findOne({ username }).then((doctor) => {
     if (doctor) {
       res.json('Doctor already registered');
       return;
+    } else {
+      DoctorModel.create(req.body).then((Doctor) => {
+        res.json(Doctor);
+      }).catch(err => res.json(err));
     }
-    else{
-    DoctorModel.create(req.body).then((Doctor) => {
-      res.json(Doctor);
-    })
-.catch(err => res.json(err))
-  }
-})
-})
+  });
+});
 
 // Doctor Login
 app.post('/login-doctor', (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  DoctorModel.findOne({ email }).then((doctor) => {
+  DoctorModel.findOne({ username }).then((doctor) => {
     if (!doctor) {
       // User not found
       res.json('User not found');
@@ -46,47 +44,44 @@ app.post('/login-doctor', (req, res) => {
       // Incorrect password
       res.json('Wrong password');
     }
-  })
-})
+  });
+});
 
 // User Signup
 app.post('/signup-user', (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  UserModel.findOne({ email }).then((user) => {
+  UserModel.findOne({ username }).then((user) => {
     if (user) {
       res.json('User already registered');
       return;
+    } else {
+      UserModel.create(req.body).then((user) => {
+        res.json(user);
+      }).catch(err => res.json(err));
     }
-    else{
-    UserModel.create(req.body).then((user) => {
-      res.json(user);
-    })
-.catch(err => res.json(err))
-  }
-})
-})
+  });
+});
 
 // User Login
 app.post('/login-user', (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  UserModel.findOne({ email }).then(user => {
-        if(user){
-            // If user found then these 2 cases
-            if(user.password === password) {
-                res.json("Success");
-            }
-            else{
-                res.json("Wrong password");
-            }
-        }
-        // If user not found then 
-        else{
-            res.json("No records found! ");
-        }
-    })
-})
+  UserModel.findOne({ username }).then(user => {
+    if (user) {
+      // If user found then these 2 cases
+      if (user.password === password) {
+        res.json("Success");
+      } else {
+        res.json("Wrong password");
+      }
+    }
+    // If user not found then
+    else {
+      res.json("No records found! ");
+    }
+  });
+});
 
 app.listen(3001, () => {
   console.log('Server listening on http://localhost:3001');
