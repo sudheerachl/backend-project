@@ -11,27 +11,25 @@ app.use(cors());
 mongoose.connect('mongodb+srv://saisudheera9803:Sai2344557@cluster0.gsisntp.mongodb.net/');
 
 // Doctor Signup
-app.delete('/delete-doctor', (req, res) => {
+app.post('/signup-doctor', (req, res) => {
   const { username, password } = req.body;
 
-  DoctorModel.findOne({ username }).then((doctor) => {
-    if (!doctor) {
-      // User not found
-      res.json('User not found');
+  DoctorModel.findOne({ username }).then((doctorByEmail) => {
+    if (doctorByEmail) {
+      res.json('Username already registered');
       return;
     }
 
-    if (doctor.password === password) {
-      // Delete the doctor
-      DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
-        res.json('Deleted successfully');
-      }).catch((err) => {
-        res.json('Error deleting doctor');
-      });
-    } else {
-      // Incorrect password
-      res.json('Wrong password');
-    }
+    DoctorModel.findOne({ email: req.body.email }).then((doctorByEmail) => {
+      if (doctorByEmail) {
+        res.json('Email already registered');
+        return;
+      }
+
+      DoctorModel.create(req.body).then((doctor) => {
+        res.json(user);
+      }).catch(err => res.json(err));
+    });
   });
 });
 
