@@ -81,7 +81,37 @@ app.delete('/delete-doctor', (req, res) => {
     }
   });
 });
+//doctor-update
+app.post('/login-doctor', (req, res) => {
+  const { username, password,phoneNumber,gender,email,name  } = req.body;
 
+  DoctorModel.findOne({ username }).then((doctor) => {
+    if (!doctor) {
+      // User not found
+      res.json('User not found');
+      return;
+    }
+
+    if (doctor.password === password) {
+       UserModel.findOneAndUpdate({ username }, { phoneNumber, gender, email, name }, { new: true }).then((updatedDoctor) => {
+          if (!updatedDoctor) {
+            res.status(404).json({ message: 'Doctor not found' });
+            return;
+          }
+
+          res.status(200).json({ message: 'Doctor information updated successfully' });
+        }).catch((err) => {
+          console.error('Error updating user information:', err);
+          res.status(500).json({ message: 'Internal server error' });
+        });
+      }
+      res.json('Success');
+    } else {
+      // Incorrect password
+      res.json('Wrong password');
+    }
+  });
+});
 
 
 // User Signup
