@@ -16,15 +16,23 @@ app.post('/signup-doctor', (req, res) => {
 
   DoctorModel.findOne({ username }).then((doctor) => {
     if (doctor) {
-      res.json('Doctor already registered');
+      res.json('Username already registered');
       return;
     } else {
-      DoctorModel.create(req.body).then((Doctor) => {
-        res.json(Doctor);
-      }).catch(err => res.json(err));
+      UserModel.findOne({ email: req.body.email }).then((doctor) => { // Use req.body.email to access the email property
+        if (doctor) {
+          res.json('Email already registered');
+          return;
+        } else {
+          UserModel.create(req.body).then((doctor) => {
+            res.json(doctor);
+          }).catch(err => res.json(err));
+        }
+      });
     }
   });
 });
+
 
 // Doctor Login
 app.post('/login-doctor', (req, res) => {
@@ -53,12 +61,19 @@ app.post('/signup-user', (req, res) => {
 
   UserModel.findOne({ username }).then((user) => {
     if (user) {
-      res.json('User already registered');
+      res.json('Username already registered');
       return;
     } else {
-      UserModel.create(req.body).then((user) => {
-        res.json(user);
-      }).catch(err => res.json(err));
+      UserModel.findOne({ email: req.body.email }).then((user) => { // Use req.body.email to access the email property
+        if (user) {
+          res.json('Email already registered');
+          return;
+        } else {
+          UserModel.create(req.body).then((user) => {
+            res.json(user);
+          }).catch(err => res.json(err));
+        }
+      });
     }
   });
 });
