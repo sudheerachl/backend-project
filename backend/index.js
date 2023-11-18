@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const DoctorModel = require('./models/Doctordata');
 const UserModel = require('./models/UserData');
 
@@ -48,7 +49,9 @@ app.post('/login-doctor', (req, res) => {
 
     if (doctor.password === password) {
       // Login successful
-      res.json('Success');
+      const accessToken = generateAccessToken(username); // Generate JWT token
+
+      res.json({ accessToken });
     } else {
       // Incorrect password
       res.status(200).json({message : 'Wrong password'});
