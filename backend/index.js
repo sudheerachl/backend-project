@@ -72,9 +72,7 @@ app.delete('/delete-doctor', (req, res) => {
     // Delete the doctor
     DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
       res.status(200).json({ status: 'SUCCCESS' });
-    }).catch((err) => {
-      res.status(500).json({ message: 'Error deleting doctor' });
-    });
+    })
   });
 });
 
