@@ -10,7 +10,10 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect('mongodb+srv://saisudheera9803:Sai2344557@cluster0.gsisntp.mongodb.net/');
-
+const generateAccessToken = (username) => {
+  const accessToken = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '3600s' }); // Expiry time in seconds
+  return accessToken;
+};
 // Doctor Signup
 app.post('/signup-doctor', (req, res) => {
   const { username, password } = req.body;
