@@ -42,7 +42,7 @@ app.post('/login-doctor', (req, res) => {
   DoctorModel.findOne({ username }).then((doctor) => {
     if (!doctor) {
       // User not found
-      res.json('User not found');
+      res.status(200).json({message : 'User not found'});
       return;
     }
 
@@ -51,7 +51,7 @@ app.post('/login-doctor', (req, res) => {
       res.json('Success');
     } else {
       // Incorrect password
-      res.json('Wrong password');
+      res.status(200).json({message : 'Wrong password'});
     }
   });
 });
