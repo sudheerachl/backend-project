@@ -56,12 +56,6 @@ app.post('/login-doctor', (req, res) => {
   });
 });
 // doctor delete
-const express = require('express');
-const app = express();
-const DoctorModel = require('./models/doctor');
-
-app.use(express.json());
-
 app.delete('/delete-doctor', (req, res) => {
   const { username, password } = req.body;
 
