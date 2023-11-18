@@ -137,21 +137,22 @@ app.post('/signup-user', (req, res) => {
 
 
 // User Login
-app.post('/login-user', (req, res) => {
+app.post('/login-doctor', (req, res) => {
   const { username, password } = req.body;
 
-  UserModel.findOne({ username }).then(user => {
-    if (user) {
-      // If user found then these 2 cases
-      if (user.password === password) {
-        res.json("Success");
-      } else {
-        res.json("Wrong password");
-      }
+  DoctorModel.findOne({ username }).then((doctor) => {
+    if (!doctor) {
+      // User not found
+      res.status(200).json({message : 'User not found'});
+      return;
     }
-    // If user not found then
-    else {
-      res.json("No records found! ");
+
+    if (doctor.password === password) {
+      // Login successful
+      res.json('Success');
+    } else {
+      // Incorrect password
+      res.status(200).json({message : 'Wrong password'});
     }
   });
 });
