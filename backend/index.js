@@ -69,7 +69,7 @@ app.delete('/delete-doctor', (req, res) => {
     if (doctor.password === password) {
       // Delete the doctor
       DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
-        res.json('Deleted successfully');
+        res.status(200).json('Deleted successfully');
       }).catch((err) => {
         res.json('Error deleting doctor');
       });
