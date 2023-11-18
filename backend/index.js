@@ -63,22 +63,24 @@ app.delete('/delete-doctor', (req, res) => {
     if (!doctor) {
       // User not found
       res.status(404).json({ message: 'Doctor not found' });
-       return;
+      return;
     }
 
-    if (doctor.password === password) {
-      // Delete the doctor
-      DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
-        res.status(200).json('Deleted successfully');
-      }).catch((err) => {
-        res.json('Error deleting doctor');
-      });
-    } else {
+    if (doctor.password !== password) {
       // Incorrect password
-      res.json('Wrong password');
+      res.status(400).json({ message: 'Incorrect password' });
+      return;
     }
+
+    // Delete the doctor
+    DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
+      res.status(200).json('Deleted successfully');
+    }).catch((err) => {
+      res.status(500).json({ message: 'Error deleting doctor' });
+    });
   });
 });
+
 //doctor-update
 app.post('/update-doctor', (req, res) => {
   const { username, password, phoneNumber, gender, email, name } = req.body;
