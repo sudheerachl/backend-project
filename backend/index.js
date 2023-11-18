@@ -83,33 +83,37 @@ app.delete('/delete-doctor', async (req, res) => {
 
 
 //doctor-update
-app.post('/update-doctor', (req, res) => {
+app.post('/update-doctor', async (req, res) => {
   const { username, password, phoneNumber, gender, email, name } = req.body;
 
-  DoctorModel.findOne({ username }).then((doctor) => {
+  try {
+    const doctor = await DoctorModel.findOne({ username });
+
     if (!doctor) {
       // Doctor not found
-      res.status(404).json({ message: 'Doctor not found' });
-      return;
+      return res.status(404).json({ message: 'Doctor not found' });
     }
 
     if (doctor.password === password) {
-      DoctorModel.findOneAndUpdate({ username }, { phoneNumber, gender, email, name }, { new: true }).then((updatedDoctor) => {
-        if (!updatedDoctor) {
-          res.status(404).json({ message: 'Doctor not found' });
-          return;
-        }
+      const updatedDoctor = await DoctorModel.findOneAndUpdate(
+        { username },
+        { phoneNumber, gender, email, name },
+        { new: true }
+      );
 
-        res.status(200).json({ message: 'Doctor information updated successfully' });
-      }).catch((err) => {
-        console.error('Error updating doctor information:', err);
-        res.status(500).json({ message: 'Internal server error' });
-      });
+      if (!updatedDoctor) {
+        return res.status(404).json({ message: 'Doctor not found' });
+      }
+
+      return res.status(200).json({ message: 'Doctor information updated successfully' });
     } else {
       // Incorrect password
-      res.status(400).json({ message: 'Incorrect password' });
+      return res.status(400).json({ message: 'Incorrect password' });
     }
-  });
+  } catch (error) {
+    console.error('Error updating doctor information:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 // User Signup
