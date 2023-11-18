@@ -56,27 +56,38 @@ app.post('/login-doctor', (req, res) => {
   });
 });
 // doctor delete
+const express = require('express');
+const app = express();
+const DoctorModel = require('./models/doctor');
+
+app.use(express.json());
+
 app.delete('/delete-doctor', (req, res) => {
   const { username, password } = req.body;
 
   DoctorModel.findOne({ username }).then((doctor) => {
     if (!doctor || doctor.password !== password) {
       if (!doctor) {
-        res.status(422).json({ message: 'Doctor not found' });
+        res.status(422).json({ status: 'DOCTOR_NOT_FOUND' });
       } else {
-        res.status(400).json({ message: 'Incorrect password' });
+        res.status(400).json({ status: 'INVALID_CREDENTIALS' });
       }
       return;
     }
 
     // Delete the doctor
     DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
-      res.status(200).json('Deleted successfully');
+      res.status(200).json({ message: 'Deleted successfully' });
     }).catch((err) => {
       res.status(500).json({ message: 'Error deleting doctor' });
     });
   });
 });
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server started on port 3000');
+});
+
 
 
 //doctor-update
