@@ -62,7 +62,7 @@ app.delete('/delete-doctor', (req, res) => {
   DoctorModel.findOne({ username }).then((doctor) => {
     if (!doctor || doctor.password !== password) {
       if (!doctor) {
-        res.status(422).json({ status: 'DOCTOR_NOT_FOUND' });
+        res.json({ status: 'DOCTOR_NOT_FOUND' });
       } else {
         res.status(400).json({ status: 'INVALID_CREDENTIALS' });
       }
