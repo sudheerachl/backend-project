@@ -56,25 +56,6 @@ app.post('/login-doctor', (req, res) => {
   });
 });
 // doctor delete
-/*app.delete('/delete-doctor', (req, res) => {
-  const { username, password } = req.body;
-
-  DoctorModel.findOne({ username }).then((doctor) => {
-    if (!doctor || doctor.password !== password) {
-      if (!doctor) {
-        res.json({ status: 'DOCTOR_NOT_FOUND' });
-      } else {
-        res.json({ status: 'INVALID_CREDENTIALS' });
-      }
-      return;
-    }
-
-    // Delete the doctor
-    DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
-      res.json({ status: 'SUCCCESS' });
-    })
-  });
-});*/
 app.delete('/delete-doctor', async (req, res) => {
   const { username, password } = req.body;
 
@@ -177,31 +158,28 @@ app.post('/login-user', (req, res) => {
   });
 });
 //User Delete.
-app.delete('/delete-user', (req, res) => {
+app.delete('/delete-user', async (req, res) => {
   const { username, password } = req.body;
 
-  UserModel.findOne({ username }).then((user) => {
+  const user = await UserModel.findOne({ username });
+
+  if (!user || user.password !== password) {
     if (!user) {
-      // User not found
-      res.json('User not found');
-      return;
-    }
-
-    if (user.password === password) {
-      // Delete the doctor
-      UserModel.deleteOne({ _id: user._id }).then(() => {
-        res.json('Deleted successfully');
-      }).catch((err) => {
-        res.json('Error deleting doctor');
-      });
+      res.status(200).json({ message: 'User not found' });
     } else {
-      // Incorrect password
-      res.json('Wrong password');
+      res.status(200).json({ message: 'Incorrect password' });
     }
-  });
+    return;
+  }
+
+  // Delete the user
+  await UserModel.deleteOne({ _id: user._id });
+
+  res.status(200).json({ message: 'User deleted successfully' });
 });
 
 
-app.listen(3001, () => {
-  console.log('Server listening on http://localhost:3001');
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server started on port 3000');
 });
+
