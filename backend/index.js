@@ -68,9 +68,9 @@ app.delete('/delete-doctor', (req, res) => {
   DoctorModel.findOne({ username }).then((doctor) => {
     if (!doctor || doctor.password !== password) {
       if (!doctor) {
-        res.status(422).json({ status: 'DOCTOR_NOT_FOUND' });
+        res.status(200).json({ status: 'DOCTOR_NOT_FOUND' });
       } else {
-        res.status(400).json({ status: 'INVALID_CREDENTIALS' });
+        res.status(200).json({ status: 'INVALID_CREDENTIALS' });
       }
       return;
     }
@@ -79,7 +79,7 @@ app.delete('/delete-doctor', (req, res) => {
     DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
       res.status(200).json({ status: 'SUCCCESS' });
     }).catch((err) => {
-      res.status(500).json({ message: 'Error deleting doctor' });
+      res.status(200).json({ message: 'Error deleting doctor' });
     });
   });
 });
