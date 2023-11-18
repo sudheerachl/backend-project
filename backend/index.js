@@ -64,14 +64,14 @@ app.delete('/delete-doctor', (req, res) => {
       if (!doctor) {
         res.json({ status: 'DOCTOR_NOT_FOUND' });
       } else {
-        res.status(400).json({ status: 'INVALID_CREDENTIALS' });
+        res.json({ status: 'INVALID_CREDENTIALS' });
       }
       return;
     }
 
     // Delete the doctor
     DoctorModel.deleteOne({ _id: doctor._id }).then(() => {
-      res.status(200).json({ status: 'SUCCCESS' });
+      res.json({ status: 'SUCCCESS' });
     })
   });
 });
