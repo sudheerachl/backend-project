@@ -62,8 +62,8 @@ app.delete('/delete-doctor', (req, res) => {
   DoctorModel.findOne({ username }).then((doctor) => {
     if (!doctor) {
       // User not found
-      res.json('User not found');
-      return;
+      res.status(404).json({ message: 'Doctor not found' });
+       return;
     }
 
     if (doctor.password === password) {
