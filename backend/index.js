@@ -60,15 +60,12 @@ app.delete('/delete-doctor', (req, res) => {
   const { username, password } = req.body;
 
   DoctorModel.findOne({ username }).then((doctor) => {
-    if (!doctor) {
-      // User not found
-      res.status(404).json({ message: 'Doctor not found' });
-      return;
-    }
-
-    if (doctor.password !== password) {
-      // Incorrect password
-      res.status(400).json({ message: 'Incorrect password' });
+    if (!doctor || doctor.password !== password) {
+      if (!doctor) {
+        res.status(404).json({ message: 'Doctor not found' });
+      } else {
+        res.status(400).json({ message: 'Incorrect password' });
+      }
       return;
     }
 
@@ -80,6 +77,7 @@ app.delete('/delete-doctor', (req, res) => {
     });
   });
 });
+
 
 //doctor-update
 app.post('/update-doctor', (req, res) => {
