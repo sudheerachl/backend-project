@@ -282,6 +282,23 @@ app.post('/addDisease', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+// getting diseases
+app.get('/getDiseases/:username', async (req, res) => {
+  try {
+    const username = req.params.username;
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      return res.status(200).json({ message: 'User not found' });
+    }
+
+    // Send the diseases array to the frontend
+    res.json({message: 'Diseases fetched successfully', diseases: user.diseases });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
