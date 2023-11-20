@@ -117,9 +117,9 @@ app.post('/update-doctor', async (req, res) => {
   }
 });
 // view doctor
-app.get('/info-doctor', async (req, res) => {
+app.get('/info-doctor/:username', async (req, res) => {
   try {
-    const username = req.body;
+    const username = req.params.username;
     const doctor = await DoctorModel.findOne({ username });
 
     if (!doctor) {
@@ -137,6 +137,7 @@ app.get('/info-doctor', async (req, res) => {
     res.status(500).send({ message: 'Internal server error' });
   }
 });
+
 
 // User Signup
 app.post('/signup-user', (req, res) => {
