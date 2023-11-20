@@ -1,7 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
+
 const DoctorModel = require('./models/Doctordata');
 const UserModel = require('./models/UserData');
 
@@ -10,10 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect('mongodb+srv://saisudheera9803:Sai2344557@cluster0.gsisntp.mongodb.net/');
-const generateAccessToken = (username) => {
-  const accessToken = jwt.sign({ username }, process.env.SECRET_KEY, { expiresIn: '3600s' }); // Expiry time in seconds
-  return accessToken;
-};
+
 // Doctor Signup
 app.post('/signup-doctor', (req, res) => {
   const { username, password } = req.body;
@@ -40,7 +37,7 @@ app.post('/signup-doctor', (req, res) => {
 
 
 // Doctor Login
-app.post('/login-doctor', (req, res) => {
+app.post('/login-doctorr', (req, res) => {
   const { username, password } = req.body;
 
   DoctorModel.findOne({ username }).then((doctor) => {
@@ -52,9 +49,7 @@ app.post('/login-doctor', (req, res) => {
 
     if (doctor.password === password) {
       // Login successful
-      const accessToken = generateAccessToken(username); // Generate JWT token
-
-      res.json({ accessToken });
+      res.json('Success');
     } else {
       // Incorrect password
       res.status(200).json({message : 'Wrong password'});
