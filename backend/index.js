@@ -127,10 +127,10 @@ app.get('/info-doctor', async (req, res) => {
     }
 
     res.json({
-      username: user.username,
-      email: user.email,
-      name: user.name,
-      gender: user.gender,
+      username: doctor.username,
+      email: doctor.email,
+      name: doctor.name,
+      gender: doctor.gender,
     });
   } catch (error) {
     console.error(error);
