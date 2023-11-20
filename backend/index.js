@@ -116,6 +116,27 @@ app.post('/update-doctor', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+// view doctor
+app.get('info-doctor/${username}', async (req, res) => {
+  try {
+    const username = req.params.username;
+    const doctor = await DoctorModel.findOne({ username });
+
+    if (!doctor) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    res.json({
+      username: user.username,
+      email: user.email,
+      name: user.name,
+      gender: user.gender,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
 
 // User Signup
 app.post('/signup-user', (req, res) => {
