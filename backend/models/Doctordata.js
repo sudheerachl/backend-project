@@ -6,7 +6,8 @@ const DoctorSchema = new mongoose.Schema({
   phoneNumber: String,
   gender: String,
   email: String,
-  password: String
+  password: String,
+  disease: String
 });
 
 // Create model
