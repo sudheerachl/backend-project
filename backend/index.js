@@ -265,12 +265,12 @@ app.post('/addDisease', async (req, res) => {
     let user = await UserModel.findOne({ username });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(200).json({ message: 'User not found' });
     }
 
     // Check if the disease already exists for the user
     if (user.diseases.includes(disease)) {
-      return res.status(400).json({ message: 'Disease already exists for this user' });
+      return res.status(200).json({ message: 'Disease already exists for this user' });
     }
 
     // Add the new disease to the existing user's diseases
