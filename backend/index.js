@@ -117,9 +117,9 @@ app.post('/update-doctor', async (req, res) => {
   }
 });
 // view doctor
-app.get('info-doctor/${username}', async (req, res) => {
+app.get('/info-doctor', async (req, res) => {
   try {
-    const username = req.params.username;
+    const username = req.body;
     const doctor = await DoctorModel.findOne({ username });
 
     if (!doctor) {
