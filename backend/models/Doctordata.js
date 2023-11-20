@@ -7,7 +7,7 @@ const DoctorSchema = new mongoose.Schema({
   gender: String,
   email: String,
   password: String,
-  disease: String
+  diseases: [String]
 });
 
 // Create model
