@@ -267,7 +267,7 @@ app.post('/addDisease', async (req, res) => {
     if (!user) {
       // If the user doesn't exist, create a new user
        return res.status(404).json({ message: 'User not found' });
-        
+    }
 
     // Check if the disease already exists for the user
     if (user.diseases.includes(disease)) {
