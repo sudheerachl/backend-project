@@ -203,6 +203,60 @@ app.delete('/delete-user', async (req, res) => {
 
   res.status(200).json({ message: 'User deleted successfully' });
 });
+//user-update
+app.post('/update-user', async (req, res) => {
+  const { username, password, phoneNumber, gender, email, name } = req.body;
+
+  try {
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      // User not found
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+
+    if (user.password === password) {
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { username },
+        { phoneNumber, gender, email, name },
+        { new: true }
+      );
+
+      if (!updateduser) {
+        return res.status(404).json({ message: 'Doctor not found' });
+      }
+
+      return res.status(200).json({ message: 'User information updated successfully' });
+    } else {
+      // Incorrect password
+      return res.status(400).json({ message: 'Incorrect password' });
+    }
+  } catch (error) {
+    console.error('Error updating user information:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+// view user
+app.get('/info-user/:username', async (req, res) => {
+  try {
+    const username = req.params.username;
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    res.json({
+      username: user.username,
+      email: user.email,
+      name: user.name,
+      gender: user.gender,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
 
 
 app.listen(process.env.PORT || 3000, () => {
