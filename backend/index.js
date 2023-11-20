@@ -37,7 +37,7 @@ app.post('/signup-doctor', (req, res) => {
 
 
 // Doctor Login
-app.post('/login-doctorr', (req, res) => {
+app.post('/login-doctor', (req, res) => {
   const { username, password } = req.body;
 
   DoctorModel.findOne({ username }).then((doctor) => {
