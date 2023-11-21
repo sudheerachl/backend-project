@@ -99,23 +99,24 @@ app.post('/update-doctor', async (req, res) => {
       const updatedDoctor = await DoctorModel.findOneAndUpdate(
         { username },
         { phoneNumber, gender, email, name },
-        { new: true }
+        { new: true } // This ensures that the updated document is returned
       );
 
       if (!updatedDoctor) {
-        return res.status(404).json({ message: 'Doctor not found' });
+        return res.status(200).json({ message: 'Doctor not found' });
       }
 
       return res.status(200).json({ message: 'Doctor information updated successfully' });
     } else {
       // Incorrect password
-      return res.status(400).json({ message: 'Incorrect password' });
+      return res.status(200).json({ message: 'Incorrect password' });
     }
   } catch (error) {
     console.error('Error updating doctor information:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(200).json({ message: 'Internal server error' });
   }
 });
+
 // view doctor
 app.get('/info-doctor/:username', async (req, res) => {
   try {
