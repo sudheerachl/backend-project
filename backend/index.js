@@ -279,7 +279,7 @@ app.post('/update-user', async (req, res) => {
         return res.status(200).json({ message: 'User not found' });
       }
 
-      return res.status(400).json({ message: 'User information updated successfully' });
+      return res.status(200).json({ message: 'User information updated successfully' });
     } else {
       // Incorrect password
       return res.status(200).json({ message: 'Incorrect password' });
