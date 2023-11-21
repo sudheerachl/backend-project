@@ -131,6 +131,8 @@ app.get('/info-doctor/:username', async (req, res) => {
       email: doctor.email,
       name: doctor.name,
       gender: doctor.gender,
+      phoneNumber: doctor.phoneNumber,
+      diseases: doctor.diseases,
     });
   } catch (error) {
     console.error(error);
@@ -301,6 +303,8 @@ app.get('/info-user/:username', async (req, res) => {
       email: user.email,
       name: user.name,
       gender: user.gender,
+      phoneNumber: user.phoneNumber,
+      diseases: user.diseases,
     });
   } catch (error) {
     console.error(error);
