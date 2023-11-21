@@ -189,7 +189,7 @@ app.get('/getDiseasesd/:username', async (req, res) => {
   }
 });
 // disease delete
-app.delete('/delete-disease', async (req, res) => {
+app.delete('/delete-diseased', async (req, res) => {
   const { username, disease, password } = req.body;
 
   const doctor = await DoctorModel.findOne({ username });
