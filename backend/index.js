@@ -383,7 +383,7 @@ app.get('/getDiseases/:username', async (req, res) => {
   }
 });
 app.delete('/delete-disease', async (req, res) => {
-  const { username, disease } = req.body;
+  const { username, password, disease } = req.body;
 
   const user = await UserModel.findOne({ username });
 
@@ -411,6 +411,7 @@ app.delete('/delete-disease', async (req, res) => {
 
   res.status(200).json({ message: 'Disease deleted successfully', updatedUser });
 });
+
 
 
 app.listen(process.env.PORT || 3000, () => {
