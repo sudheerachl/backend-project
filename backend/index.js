@@ -188,39 +188,18 @@ app.get('/getDiseasesd/:username', async (req, res) => {
     res.status(500).send({ message: 'Internal server error' });
   }
 });
-app.delete('/delete-doctor-disease', async (req, res) => {
-  const { username, disease } = req.body;
-
-  const doctor = await DoctorModel.findOne({ username });
-
-  if (!doctor) {
-    res.status(200).json({ message: 'Doctor not found' });
-    return;
-  }
-
-  // Check if the disease exists in the doctor's diseases array
-  if (!doctor.diseases.includes(disease)) {
-    res.status(200).json({ message: 'Disease not found for this doctor' });
-    return;
-  }
-
-  // Update the doctor by pulling the specified disease from the diseases array
-  const updatedDoctor = await DoctorModel.findOneAndUpdate(
-    { username },
-    { $pull: { diseases: disease } },
-    { new: true }
-  );
-
-  res.status(200).json({ message: 'Disease deleted successfully', updatedDoctor });
-});
 // disease delete
-app.delete('/delete-diseased', async (req, res) => {
-  const { username, disease } = req.body;
+app.delete('/delete-disease', async (req, res) => {
+  const { username, disease, password } = req.body;
 
   const doctor = await DoctorModel.findOne({ username });
 
-  if (!doctor) {
-    res.status(200).json({ message: 'Doctor not found' });
+  if (!doctor || doctor.password !== password) {
+    if (!doctor) {
+      res.status(200).json({ message: 'Doctor not found' });
+    } else {
+      res.status(200).json({ message: 'Incorrect password' });
+    }
     return;
   }
 
@@ -239,7 +218,6 @@ app.delete('/delete-diseased', async (req, res) => {
 
   res.status(200).json({ message: 'Disease deleted successfully', updatedDoctor });
 });
-
 
 
 // User Signup
