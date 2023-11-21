@@ -188,7 +188,57 @@ app.get('/getDiseasesd/:username', async (req, res) => {
     res.status(500).send({ message: 'Internal server error' });
   }
 });
+app.delete('/delete-doctor-disease', async (req, res) => {
+  const { username, disease } = req.body;
 
+  const doctor = await DoctorModel.findOne({ username });
+
+  if (!doctor) {
+    res.status(200).json({ message: 'Doctor not found' });
+    return;
+  }
+
+  // Check if the disease exists in the doctor's diseases array
+  if (!doctor.diseases.includes(disease)) {
+    res.status(200).json({ message: 'Disease not found for this doctor' });
+    return;
+  }
+
+  // Update the doctor by pulling the specified disease from the diseases array
+  const updatedDoctor = await DoctorModel.findOneAndUpdate(
+    { username },
+    { $pull: { diseases: disease } },
+    { new: true }
+  );
+
+  res.status(200).json({ message: 'Disease deleted successfully', updatedDoctor });
+});
+// disease delete
+app.delete('/delete-diseased', async (req, res) => {
+  const { username, disease } = req.body;
+
+  const doctor = await DoctorModel.findOne({ username });
+
+  if (!doctor) {
+    res.status(200).json({ message: 'Doctor not found' });
+    return;
+  }
+
+  // Check if the disease exists in the doctor's diseases array
+  if (!doctor.diseases.includes(disease)) {
+    res.status(200).json({ message: 'Disease not found for this doctor' });
+    return;
+  }
+
+  // Update the doctor by pulling the specified disease from the diseases array
+  const updatedDoctor = await DoctorModel.findOneAndUpdate(
+    { username },
+    { $pull: { diseases: disease } },
+    { new: true }
+  );
+
+  res.status(200).json({ message: 'Disease deleted successfully', updatedDoctor });
+});
 
 
 
@@ -354,6 +404,36 @@ app.get('/getDiseases/:username', async (req, res) => {
     res.status(500).send({ message: 'Internal server error' });
   }
 });
+app.delete('/delete-disease', async (req, res) => {
+  const { username, disease } = req.body;
+
+  const user = await UserModel.findOne({ username });
+
+  if (!user || user.password !== password) {
+    if (!user) {
+      res.status(200).json({ message: 'User not found' });
+    } else {
+      res.status(200).json({ message: 'Incorrect password' });
+    }
+    return;
+  }
+
+  // Check if the disease exists in the user's diseases array
+  if (!user.diseases.includes(disease)) {
+    res.status(200).json({ message: 'Disease not found for this user' });
+    return;
+  }
+
+  // Update the user by pulling the specified disease from the diseases array
+  const updatedUser = await UserModel.findOneAndUpdate(
+    { username },
+    { $pull: { diseases: disease } },
+    { new: true }
+  );
+
+  res.status(200).json({ message: 'Disease deleted successfully', updatedUser });
+});
+
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
