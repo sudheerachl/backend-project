@@ -137,6 +137,56 @@ app.get('/info-doctor/:username', async (req, res) => {
     res.status(500).send({ message: 'Internal server error' });
   }
 });
+app.post('/addDiseased', async (req, res) => {
+  try {
+    const { username, disease } = req.body;
+
+    // Check if the user exists
+    let doctor = await DoctorModel.findOne({ username });
+
+    if (!doctor) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Check if the maximum number of diseases has been reached
+    if (doctor.diseases.length >= 3) {
+      return res.status(400).json({ message: 'Maximum number of diseases reached' });
+    }
+
+    // Check if the disease already exists for the user
+    if (doctor.diseases.includes(disease)) {
+      return res.status(400).json({ message: 'Disease already exists for this user' });
+    }
+
+    // Add the new disease to the existing user's diseases
+    doctor.diseases.push(disease);
+    await user.save();
+    res.json({ message: 'Disease added successfully' });
+  } catch (error) {
+    console.error('Error adding disease:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// getting diseases
+app.get('/getDiseasesd/:username', async (req, res) => {
+  try {
+    const username = req.params.username;
+    const user = await DoctorModel.findOne({ username });
+
+    if (!user) {
+      return res.status(200).json({ message: 'User not found' });
+    }
+
+    // Send the diseases array to the frontend
+    res.json({message: 'Diseases fetched successfully', diseases: user.diseases });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
+
+
 
 
 // User Signup
