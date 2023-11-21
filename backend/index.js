@@ -147,17 +147,17 @@ app.post('/addDiseased', async (req, res) => {
     let doctor = await DoctorModel.findOne({ username });
 
     if (!doctor) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(200).json({ message: 'User not found' });
     }
 
     // Check if the maximum number of diseases has been reached
     if (doctor.diseases.length >= 3) {
-      return res.status(400).json({ message: 'Maximum number of diseases reached' });
+      return res.status(200).json({ message: 'Maximum number of diseases reached' });
     }
 
     // Check if the disease already exists for the user
     if (doctor.diseases.includes(disease)) {
-      return res.status(400).json({ message: 'Disease already exists for this user' });
+      return res.status(200).json({ message: 'Disease already exists for this user' });
     }
 
     // Add the new disease to the existing user's diseases
