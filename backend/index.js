@@ -265,7 +265,7 @@ app.post('/update-user', async (req, res) => {
 
     if (!user) {
       // User not found
-      return res.status(404).json({ message: 'Doctor not found' });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     if (user.password === password) {
@@ -276,17 +276,17 @@ app.post('/update-user', async (req, res) => {
       );
 
       if (!updateduser) {
-        return res.status(404).json({ message: 'Doctor not found' });
+        return res.status(200).json({ message: 'User not found' });
       }
 
       return res.status(200).json({ message: 'User information updated successfully' });
     } else {
       // Incorrect password
-      return res.status(400).json({ message: 'Incorrect password' });
+      return res.status(200).json({ message: 'Incorrect password' });
     }
   } catch (error) {
     console.error('Error updating user information:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(200).json({ message: 'Internal server error' });
   }
 });
 // view user
