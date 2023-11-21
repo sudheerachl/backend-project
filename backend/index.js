@@ -162,7 +162,7 @@ app.post('/addDiseased', async (req, res) => {
 
     // Add the new disease to the existing user's diseases
     doctor.diseases.push(disease);
-    await user.save();
+    await doctor.save(); // <-- Fix this line
     res.json({ message: 'Disease added successfully' });
   } catch (error) {
     console.error('Error adding disease:', error);
